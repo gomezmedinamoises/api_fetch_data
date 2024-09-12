@@ -17,6 +17,17 @@ class _HolidayListScreenState extends State<HolidayListScreen> {
   String error = '';
   bool loading = false;
 
+  final List<Map<String, String>> countries = [
+    {'name': 'United States', 'code': 'US'},
+    {'name': 'Venezuela', 'code': 'VE'},
+    {'name': 'Colombia', 'code': 'CO'},
+    {'name': 'Mexico', 'code': 'MX'},
+    {'name': 'Argentina', 'code': 'AR'},
+    {'name': 'Costa Rica', 'code': 'CR'},
+  ];
+
+  String selectedCountryCode = 'US';
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +38,7 @@ class _HolidayListScreenState extends State<HolidayListScreen> {
     try {
       final HolidaysRepository holidaysRepository = HolidaysRepositoryImpl();
       setState(() => loading = true);
-      holidays = await holidaysRepository.fetchHolidays();
+      holidays = await holidaysRepository.fetchHolidays(selectedCountryCode);
       error = '';
     } catch (e) {
       error = e.toString();
@@ -41,6 +52,23 @@ class _HolidayListScreenState extends State<HolidayListScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Holidays'),
+          actions: [
+            DropdownButton(
+              value: selectedCountryCode,
+              items: countries.map((country) {
+                return DropdownMenuItem(
+                  value: country['code'],
+                  child: Text(country['name']!),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  selectedCountryCode = newValue!;
+                  _fetchHolidays();
+                });
+              },
+            )
+          ],
         ),
         body: loading
             ? const Center(
