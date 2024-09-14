@@ -1,5 +1,5 @@
-import 'package:api_fetch_data/data/repository/holidays_repository_impl.dart';
-import 'package:api_fetch_data/domain/repository/holidays_repository.dart';
+import 'package:api_fetch_data/features/holidays/data/repository/holidays_repository_impl.dart';
+import 'package:api_fetch_data/features/holidays/domain/repository/holidays_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/model/holidays.dart';
@@ -50,33 +50,34 @@ class _HolidayListScreenState extends State<HolidayListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Holidays'),
-          actions: [
-            DropdownButton(
-              value: selectedCountryCode,
-              items: countries.map((country) {
-                return DropdownMenuItem(
-                  value: country['code'],
-                  child: Text(country['name']!),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  selectedCountryCode = newValue!;
-                  _fetchHolidays();
-                });
-              },
+      appBar: AppBar(
+        title: const Text('Holidays'),
+        actions: [
+          DropdownButton(
+            value: selectedCountryCode,
+            items: countries.map((country) {
+              return DropdownMenuItem(
+                value: country['code'],
+                child: Text(country['name']!),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              setState(() {
+                selectedCountryCode = newValue!;
+                _fetchHolidays();
+              });
+            },
+          )
+        ],
+      ),
+      body: loading
+          ? const Center(
+              child: CircularProgressIndicator(),
             )
-          ],
-        ),
-        body: loading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : error.isEmpty
-                ? HolidayList(holidays: holidays)
-                : _buildError());
+          : error.isEmpty
+              ? HolidayList(holidays: holidays)
+              : _buildError(),
+    );
   }
 
   Widget _buildError() {

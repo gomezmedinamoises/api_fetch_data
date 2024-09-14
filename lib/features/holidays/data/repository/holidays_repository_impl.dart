@@ -1,4 +1,4 @@
-import 'package:api_fetch_data/data/model/holidays.dart';
+import 'package:api_fetch_data/features/holidays/data/model/holidays.dart';
 import 'package:dio/dio.dart';
 
 import '../../domain/repository/holidays_repository.dart';

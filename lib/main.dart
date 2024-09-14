@@ -1,4 +1,4 @@
-import 'package:api_fetch_data/presentation/screens/holiday_list_screen.dart';
+import 'package:api_fetch_data/features/core/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HolidayListScreen(),
+      home: const MainScreen(),
     );
   }
 }
